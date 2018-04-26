@@ -115,6 +115,28 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 		return newNode;
 	}
 	
+	public LinkedBinaryTree<E> clone() throws CloneNotSupportedException { 
+		LinkedBinaryTree<E> other = new LinkedBinaryTree<>(); 
+		if (!isEmpty())
+			other.addRoot(root().getElement()); 
+		cloneSubtree(root(), other, other.root()); 
+
+		return other; 
+	}
+	
+	private void cloneSubtree(Position<E> rThis, LinkedBinaryTree<E> other, Position<E> rOther) {
+		for (Position<E> pThis : children(rThis)) {
+			Position<E> parent = this.parent(pThis);
+			Position<E> pOther = null;
+			if(this.hasLeft(parent) && this.left(parent).equals(pThis))
+				pOther = other.addLeft(rOther, pThis.getElement());
+			else
+				pOther = other.addRight(rOther, pThis.getElement());
+			cloneSubtree(pThis, other, pOther); 
+		}
+	}
+
+	
 	/**
 	 * Attaches the internal structure of two specified trees as the left and right 
 	 * subtrees of a given external node in this binary tree. The two subtrees to be

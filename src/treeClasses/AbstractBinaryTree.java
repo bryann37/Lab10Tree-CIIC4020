@@ -56,19 +56,38 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements
 
 	
 	// The following part has to do with Exercise 3. 
-	/**
+	@Override
 	protected void recDisplay(Position<E> r, 
 			int[] control, int level) 
 	{
 		// ADD CODE to override this method as specified in Exercise 3
+		printPrefix(level, control);                                     
+		System.out.println();                                            
+		printPrefix(level, control); 
+		Position<E> par = parent(r);
+		if(par == null)
+			System.out.println("__ROOT("+r.getElement()+")");
+		else {
+			if(left(par) == r)
+				System.out.println("__L("+r.getElement()+")");
+			else
+				System.out.println("__R("+r.getElement()+")");
+		}
+		control[level]--;                                                
+		int nc = this.numChildren(r);                                 
+		control[level+1] = nc;                                           
+		for (Position<E>  p : this.children(r))                      
+			recDisplay(p, control, level+1);
 	}
-	**/
+	
 
 
 	// The following part has to do with Exercise 5.
-	/**
+	
 	// internal method to construct the Iterable<Position<E>> object. 
 	// based on inorder traversal. 
+	
+	
 	protected void fillIterable(Position<E> r, ArrayList<Position<E>> pList) { 
 		if (hasLeft(r)) 
 			fillIterable(left(r), pList); 
@@ -76,7 +95,7 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements
 		if (hasRight(r)) 
 			fillIterable(right(r), pList); 
 	}
-    **/
+    
 
 
 }
